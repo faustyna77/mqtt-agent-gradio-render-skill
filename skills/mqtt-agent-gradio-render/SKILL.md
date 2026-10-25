@@ -122,7 +122,7 @@ Use this skill for a student who has the course ESP32/MQTT terminal agent workin
 
 ## Local verification
 
-1. Resolve a Python 3.10+ executable with `terminal` before invoking bare `python`. On macOS, `python` may be absent while `python3.11` is available. Create or activate a repository-root `.venv` with the resolved interpreter, then use that environment's `python` to install root requirements. Do not assume an existing `.venv` is valid; inspect it or recreate it if needed.
+1. Resolve a Python 3.10+ executable with `terminal` before invoking bare `python`. On macOS, `python` may be absent while `python3.11` is available. Create or activate a repository-root `.venv` with the resolved interpreter, then use that environment's `python` to install root requirements. Do not assume an existing `.venv` is valid: if `.venv/bin/python` is missing or a broken symlink, verify `.venv` is ignored, remove only that generated `.venv`, and recreate it with the resolved interpreter. Do not try to reuse a broken environment.
 2. Compile the application and agent package with `python -m compileall -q app.py agent`. The new `app.py` must catch missing configuration at import time and render a configuration message in the chat instead of crashing.
 3. Start `app.py` with only `PORT=10000` set. Do not put `OPENROUTER_API_KEY`, MQTT variables, dummy secrets, or a `python -c`/heredoc script in a terminal command just to test the import. Fetch the local HTTP URL and confirm it returns HTTP 200 and includes `ESP32 AI Agent`, then stop the local process. Starting the UI must not make an MQTT connection.
 4. Ask the student to try one real command in the local browser only after they explicitly approve control of their own test ESP32.
