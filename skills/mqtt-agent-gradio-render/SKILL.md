@@ -37,19 +37,17 @@ Use this skill for a student who has the course ESP32/MQTT terminal agent workin
 1. Add `gradio` to the dependency file that already serves the terminal agent. For the course baseline, add it to `agent/requirements.txt` without changing existing dependencies.
 2. Create a root `requirements.txt` containing exactly `-r agent/requirements.txt` when the baseline has no root dependency file. If a root dependency file already exists, extend it instead of replacing unrelated entries.
 3. Create root `app.py`. For the course baseline, use this behavior:
-   - import Gradio, `os`, `secrets`, `sys`, and `Path`;
+   - import Gradio, `os`, `sys`, and `Path`;
    - prepend `agent/` to `sys.path`, then import `ESP32Agent`;
    - catch missing environment-variable errors at import time and display a useful configuration message rather than crashing the UI;
    - define `respond(message, history)` that creates `ESP32Agent`, replays prior user/assistant messages from Gradio history into `agent.messages`, then calls `agent.chat(message)`;
    - define `gr.ChatInterface` with the Polish title `ESP32 AI Agent`, LED examples, and saved history;
-   - launch on `server_name="0.0.0.0"` and `server_port=int(os.getenv("PORT", "7860"))`;
-   - add Basic Auth only when both optional `GRADIO_USERNAME` and `GRADIO_PASSWORD` are set. Leave them unset for an open class demo.
+   - launch on `server_name="0.0.0.0"` and `server_port=int(os.getenv("PORT", "7860"))`.
 
    Use this implementation pattern for the course baseline; adapt imports and the response adapter only after reading the student's actual agent:
 
    ```python
    import os
-   import secrets
    import sys
    from pathlib import Path
 
@@ -98,26 +96,15 @@ Use this skill for a student who has the course ESP32/MQTT terminal agent workin
        save_history=True,
    )
 
-
-   def gradio_auth(username, password):
-       return (
-           secrets.compare_digest(username, os.getenv("GRADIO_USERNAME", ""))
-           and secrets.compare_digest(password, os.getenv("GRADIO_PASSWORD", ""))
-       )
-
-
    if __name__ == "__main__":
-       launch_options = {
-           "server_name": "0.0.0.0",
-           "server_port": int(os.getenv("PORT", "7860")),
-       }
-       if os.getenv("GRADIO_USERNAME") and os.getenv("GRADIO_PASSWORD"):
-           launch_options["auth"] = gradio_auth
-       demo.launch(**launch_options)
+       demo.launch(
+           server_name="0.0.0.0",
+           server_port=int(os.getenv("PORT", "7860")),
+       )
    ```
 
    Completion: `app.py` calls the existing agent logic; it does not duplicate MQTT connection or tool code.
-4. Keep `.env` ignored. If the project has an example env file, add only optional placeholder comments for `GRADIO_USERNAME` and `GRADIO_PASSWORD`; never add secret values.
+4. Keep `.env` ignored and never add secret values to an example env file.
    Completion: `git status --short` shows no `.env`, certificates, or secret headers.
 
 ## Local verification
@@ -146,7 +133,7 @@ Use this skill for a student who has the course ESP32/MQTT terminal agent workin
    - start command: `python app.py`
    - plan: `Free`
 3. Guide the student through connecting their own GitHub repository and creating the service. The student performs browser-only authorization themselves.
-4. In Render's Environment settings, have the student copy names from their own `.env.example` and enter values directly in Render. For the course baseline, these are `OPENROUTER_API_KEY`, `OPENROUTER_MODEL`, `MQTT_HOST`, `MQTT_PORT`, `MQTT_USERNAME`, `MQTT_PASSWORD`, and optional `MQTT_DEVICE_ID`. `GRADIO_USERNAME` and `GRADIO_PASSWORD` are optional and should remain unset for an open demo.
+4. In Render's Environment settings, have the student copy names from their own `.env.example` and enter values directly in Render. For the course baseline, these are `OPENROUTER_API_KEY`, `OPENROUTER_MODEL`, `MQTT_HOST`, `MQTT_PORT`, `MQTT_USERNAME`, `MQTT_PASSWORD`, and optional `MQTT_DEVICE_ID`.
    Completion: Render begins a deploy without secrets appearing in chat, terminal output, or Git.
 
 ## Deployment verification
