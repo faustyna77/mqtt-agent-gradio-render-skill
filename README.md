@@ -15,7 +15,7 @@ The skill keeps the existing MQTT and agent logic. It adds a web entrypoint inst
 From any directory, run:
 
 ```sh
-hermes skills install https://raw.githubusercontent.com/faustynatxb/mqtt-agent-gradio-render-skill/main/skills/mqtt-agent-gradio-render/SKILL.md --category devops
+hermes skills install https://raw.githubusercontent.com/faustyna77/mqtt-agent-gradio-render-skill/main/skills/mqtt-agent-gradio-render/SKILL.md --category devops
 ```
 
 Then start Hermes in the student's project and write:
