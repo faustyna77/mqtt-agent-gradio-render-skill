@@ -123,8 +123,8 @@ Use this skill for a student who has the course ESP32/MQTT terminal agent workin
 ## Local verification
 
 1. Use `terminal` to install the root requirements into the student's intended virtual environment. Do not assume an existing `.venv` is valid; inspect it or create a clean verification environment if needed.
-2. Compile the application and agent package. Import `app` with harmless placeholder environment values for every variable imported at module load time. Confirm that the module exposes the Gradio interface without making an MQTT connection.
-3. Start `app.py` with `PORT=10000` and harmless placeholder environment values. Fetch the local HTTP URL and confirm it returns HTTP 200 and includes `ESP32 AI Agent`, then stop the local process.
+2. Compile the application and agent package with `python -m compileall -q app.py agent`. The new `app.py` must catch missing configuration at import time and render a configuration message in the chat instead of crashing.
+3. Start `app.py` with only `PORT=10000` set. Do not put `OPENROUTER_API_KEY`, MQTT variables, dummy secrets, or a `python -c`/heredoc script in a terminal command just to test the import. Fetch the local HTTP URL and confirm it returns HTTP 200 and includes `ESP32 AI Agent`, then stop the local process. Starting the UI must not make an MQTT connection.
 4. Ask the student to try one real command in the local browser only after they explicitly approve control of their own test ESP32.
    Completion: the browser can show the agent response; any MQTT failure is reported honestly and debugged in the existing MQTT layer rather than masked by the UI.
 
