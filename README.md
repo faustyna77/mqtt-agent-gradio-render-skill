@@ -37,6 +37,7 @@ Then start Hermes in the student's project and write:
 
 - Service type: `Web Service`
 - Runtime: `Python 3`
+- Root Directory: leave empty; do not select `agent/`
 - Build command: `pip install -r requirements.txt`
 - Start command: `python app.py`
 - Plan: `Free`

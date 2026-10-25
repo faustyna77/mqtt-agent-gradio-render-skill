@@ -141,7 +141,7 @@ Use this skill for a student who has the course ESP32/MQTT terminal agent workin
 2. Before creating the service, present these settings and ask for explicit confirmation:
    - service type: `Web Service`
    - runtime: `Python 3`
-   - root directory: repository root
+   - root directory: leave it empty, which means repository root; explicitly remove `agent/` if Render prefilled or selected it
    - build command: `pip install -r requirements.txt`
    - start command: `python app.py`
    - plan: `Free`
